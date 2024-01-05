@@ -1,6 +1,7 @@
+import sys as System
+
 import pygame as PyGame
 from pygame import Surface
-import sys as System
 
 from src.python.GUI.ScreenHandler import ScreenHandler
 
@@ -17,9 +18,7 @@ if __name__ == '__main__':  # {
                 if (event == PyGame.QUIT):  # {
                     raise KeyboardInterrupt()
                 # }
-                else:  # {
-                    handler.handleEvent(event)
-                # }
+                handler.handleEvent(event)
             # }
             handler.invalidate(screen)
             PyGame.display.flip()

@@ -6,11 +6,19 @@ from pygame.draw import rect as drawRect
 
 from src.python.GUI.colors import DEFAULT_COLOR, BUTTON_COLOR, TEXT_COLOR
 from src.python.GUI.enums import StartScreenActions
-from src.python.GUI.strings import SHORT_BACKGAMMON_TXT, LONG_BACKGAMMON_TXT, STATISTICS_TXT, EXIT_TXT
+from src.python.GUI.strings import (SHORT_BACKGAMMON_TXT,
+                                    LONG_BACKGAMMON_TXT,
+                                    STATISTICS_TXT,
+                                    EXIT_TXT)
 from src.python.utils.resources_handler import getFont
 
 
 def handleStartScreenAction(action) -> Unit:  # {
+    """
+    Handles action that caused at the start screen.
+    :param action: Action to be handled
+    :return: Void (Unit (NoReturn))
+    """
     match action:  # {
         case StartScreenActions.OPEN_SHORT_BACKGAMMON:  # {
             pass
@@ -29,7 +37,12 @@ def handleStartScreenAction(action) -> Unit:  # {
 
 
 def drawStartScreen(surface: Surface) -> list:  # {
-    clickable: list = list()
+    """
+    Draws start screen UI on given surface.
+    :param surface: Surface for drawing
+    :return: List of clickable objects on screen
+    """
+    clickable: list = []
     width, height = surface.get_size()
     font: PyGame.font = PyGame.font.Font(getFont(), height // 24)
     _, fontHeight = font.size("A")

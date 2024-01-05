@@ -1,7 +1,8 @@
+from typing import NoReturn as Unit
+
 import pygame as PyGame
 from pygame import Surface
 from pygame.event import Event
-from typing import Any as Unit
 
 from src.python.GUI.enums import GameStatus, StartScreenActions
 from src.python.GUI.start_screen import handleStartScreenAction, drawStartScreen
@@ -10,10 +11,15 @@ from src.python.GUI.start_screen import handleStartScreenAction, drawStartScreen
 class ScreenHandler:  # {
     def __init__(self):  # {
         self.status: GameStatus = GameStatus.START_SCREEN
-        self.clickable: list = list()
+        self.clickable: list = []
     # }
-    
+
     def handleEvent(self, event: Event) -> Unit:  # {
+        """
+        Handle given event and update UI.
+        :param event: Event to be handled
+        :return: Void (Unit (NoReturn))
+        """
         match event.type:  # {
             case PyGame.MOUSEBUTTONDOWN:  # {
                 x, y = event.pos
@@ -27,8 +33,13 @@ class ScreenHandler:  # {
             # }
         # }
     # }
-    
+
     def invalidate(self, surface: Surface) -> Unit:  # {
+        """
+        Update given surface.
+        :param surface: Surface to be invalidated
+        :return: Void (Unit (NoReturn))
+        """
         if (self.status == GameStatus.START_SCREEN):  # {
             self.clickable = drawStartScreen(surface)
         # }
