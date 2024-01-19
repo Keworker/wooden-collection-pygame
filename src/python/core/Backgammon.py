@@ -5,7 +5,27 @@ from typing import NoReturn as Unit
 from pygame import Rect
 
 from src.python.core.Chip import Chip, ChipColor
+from src.python.core.ConstantDice import ConstantDice
 from src.python.core.Dice import Dice
+
+
+def getNewLength(length: tuple[Dice, Dice], deltaCords: int) -> tuple[Dice, Dice]:  # {
+    """
+    Returns new length by old length and delta cords
+    :param length: old length
+    :param deltaCords: int delta of cords
+    :return: tuple
+    """
+    if (length[0].getValue() == deltaCords):  # {
+        return (ConstantDice(0), length[1])
+    # }
+    if (length[1].getValue() == deltaCords):  # {
+        return (length[0], ConstantDice(0))
+    # }
+    if (length[0].getValue() + length[1].getValue() == deltaCords):  # {
+        return (ConstantDice(0), ConstantDice(0))
+    # }
+# }
 
 
 class Backgammon(ABSTRACT):  # {
@@ -57,13 +77,28 @@ class Backgammon(ABSTRACT):  # {
         return result
     # }
 
-    @abstract
     def getWinner(self) -> bool:  # {
         """
-        Returns true, if white player won, false, if black player won, 
-        and None, if game is still running. 
+        Returns true, if white player won, false, if black player won,
+        and None, if game is still running.
         :return: bool (nullable)
         """
+        hasBlack: bool = False
+        hasWhite: bool = False
+        for position in self._field:  # {
+            for chip in position:  # {
+                hasBlack |= (chip.color == ChipColor.BLACK)
+                hasWhite |= (chip.color == ChipColor.WHITE)
+            # }
+        # }
+        if (hasBlack and not hasWhite):  # {
+            return True
+        # }
+        if (hasWhite and not hasBlack):  # {
+            return False
+        # }
+        # noinspection PyTypeChecker
+        return None
     # }
 
     def getTurn(self) -> bool:  # {
