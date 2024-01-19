@@ -8,7 +8,7 @@ from pygame.sprite import Group
 from src.python.GUI.enums import GameStatus, StartScreenActions, \
     BackgammonActions, StatisticsActions
 from src.python.GUI.backgammon import drawBackgammon
-from src.python.GUI.long_backgammon import handleLongBackgammonAction
+from src.python.GUI.backgammon import handleBackgammonAction
 from src.python.GUI.start_screen import handleStartScreenAction, drawStartScreen
 from src.python.GUI.statistics import drawStatistics
 
@@ -36,16 +36,24 @@ class ScreenHandler:  # {
                             self.status, self.gameData = handleStartScreenAction(it[1], allSprites)
                         # }
                         elif (it[1] in BackgammonActions):  # {
-                            self.status, self.gameData = handleLongBackgammonAction(
-                                it[1], self.gameData, it[0], (x, y), event.type
-                            )
+                            if (self.status == GameStatus.LONG_BACKGAMMON):  # {
+                                self.status, self.gameData = handleBackgammonAction(
+                                    it[1], self.gameData, it[0], (x, y), event.type
+                                )
+                            # }
+                            else:  # {
+                                self.status, self.gameData = handleBackgammonAction(
+                                    it[1], self.gameData, it[0], (x, y), event.type
+                                )
+                            # }
                         # }
                         elif (it[1] in StatisticsActions):  # {
                             self.status, self.gameData = GameStatus.START_SCREEN, []
                         # }
                     # }
                 # }
-                if (self.status == GameStatus.LONG_BACKGAMMON):  # {
+                if (self.status in {GameStatus.LONG_BACKGAMMON,
+                                    GameStatus.SHORT_BACKGAMMON}):  # {
                     if (self.gameData[2][1][0].collidepoint(x, y)):  # {
                         self.gameData[2] = (
                             (self.gameData[1](), self.gameData[2][0][1]), self.gameData[2][1]
@@ -64,7 +72,8 @@ class ScreenHandler:  # {
             # }
             case PyGame.MOUSEMOTION | PyGame.MOUSEBUTTONUP:  # {
                 x, y = PyGame.mouse.get_pos()
-                if (self.status == GameStatus.LONG_BACKGAMMON):  # {
+                if (self.status in {GameStatus.LONG_BACKGAMMON,
+                                    GameStatus.SHORT_BACKGAMMON}):  # {
                     if (self.gameData[2][1][0].wasHold() and
                             event.type == PyGame.MOUSEBUTTONUP):  # {
                         self.gameData[2][1][0].drop((x, y))
@@ -74,10 +83,18 @@ class ScreenHandler:  # {
                         self.gameData[2][1][1].drop((x, y))
                     # }
                     elif (len(self.gameData) > 3):  # {
-                        self.status, self.gameData = handleLongBackgammonAction(
-                            BackgammonActions.MOVE_CHIP, self.gameData,
-                            None, (x, y), event.type
-                        )
+                        if (self.status == GameStatus.LONG_BACKGAMMON):  # {
+                            self.status, self.gameData = handleBackgammonAction(
+                                BackgammonActions.MOVE_CHIP, self.gameData,
+                                None, (x, y), event.type
+                            )
+                        # }
+                        else:  # {
+                            self.status, self.gameData = handleBackgammonAction(
+                                BackgammonActions.MOVE_CHIP, self.gameData,
+                                None, (x, y), event.type
+                            )
+                        # }
                     # }
                 # }
             # }
@@ -95,6 +112,9 @@ class ScreenHandler:  # {
                 self.clickable = drawStartScreen(surface)
             # }
             case GameStatus.LONG_BACKGAMMON:  # {
+                self.clickable = drawBackgammon(surface, self.gameData)
+            # }
+            case GameStatus.SHORT_BACKGAMMON:  # {
                 self.clickable = drawBackgammon(surface, self.gameData)
             # }
             case GameStatus.STATISTICS:  # {

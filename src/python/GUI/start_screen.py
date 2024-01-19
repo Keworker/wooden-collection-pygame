@@ -12,6 +12,7 @@ from src.python.GUI.strings import (SHORT_BACKGAMMON_TXT,
                                     EXIT_TXT)
 from src.python.core.LongBackgammon import LongBackgammon
 from src.python.core.RandomDice import RandomDice
+from src.python.core.ShortBackgammon import ShortBackgammon
 from src.python.utils.resources_handler import getFont
 
 
@@ -24,7 +25,13 @@ def handleStartScreenAction(action, allSprites: Group) -> tuple[GameStatus, list
     """
     match action:  # {
         case StartScreenActions.OPEN_SHORT_BACKGAMMON:  # {
-            pass
+            dice1, dice2 = (RandomDice(), RandomDice())
+            firstDiceSprite = SDice(allSprites, dice1.getValue(), (300, 500))
+            secondDiceSprite = SDice(allSprites, dice2.getValue(), (500, 300))
+            return (GameStatus.SHORT_BACKGAMMON,
+                    [ShortBackgammon(),
+                     RandomDice,
+                     ((dice1, dice2), (firstDiceSprite, secondDiceSprite))])
         # }
         case StartScreenActions.OPEN_LONG_BACKGAMMON:  # {
             dice1, dice2 = (RandomDice(), RandomDice())
