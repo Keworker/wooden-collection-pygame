@@ -60,29 +60,30 @@ def handleLongBackgammonAction(
                 if (gameData[2] is None):  # {
                     raise ValueError()
                 # }
+                gameData[2] = (field.makeMove(
+                    fieldArr[oldPos[0]][oldPos[1]],
+                    oldPos,
+                    (ind, -1),
+                    gameData[2][0]
+                ), (gameData[2][1][0], gameData[2][1][1]))
+                winner: bool = field.getWinner()
+                if (winner is not None):  # {
+                    gameData[2][1][0].kill()
+                    gameData[2][1][1].kill()
+                    DAO().addLongBackgammonGame(winner)
+                    result = GameStatus.STATISTICS, []
+                # }
                 else:  # {
-                    gameData[2] = (field.makeMove(
-                        fieldArr[oldPos[0]][oldPos[1]],
-                        oldPos,
-                        (ind, -1),
-                        gameData[2][0]
-                    ), (gameData[2][1][0], gameData[2][1][1]))
-                    winner: bool = field.getWinner()
-                    if (winner is not None):  # {
-                        gameData[2][1][0].kill()
-                        gameData[2][1][1].kill()
-                        DAO().addLongBackgammonGame(winner)
-                        return GameStatus.STATISTICS, []
-                    # }
-                    return GameStatus.LONG_BACKGAMMON, gameData[:-1]
+                    result = GameStatus.LONG_BACKGAMMON, gameData[:-1]
                 # }
             # }
             except ValueError:  # {
                 if (oldPos is not None):  # {
                     field.makePassive(oldPos)
                 # }
-                return GameStatus.LONG_BACKGAMMON, gameData[:-1]
+                result = GameStatus.LONG_BACKGAMMON, gameData[:-1]
             # }
+            return result
         # }
         case BackgammonActions.EXIT:  # {
             gameData[2][1][0].kill()

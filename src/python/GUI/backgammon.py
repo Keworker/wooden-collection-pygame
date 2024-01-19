@@ -1,7 +1,8 @@
 from typing import NoReturn as Unit
 
 from pygame import Surface, Color, Rect
-from pygame.draw import polygon as drawPolygon, line as drawLine, circle as drawCircle, rect as drawRect
+from pygame.draw import polygon as drawPolygon, line as drawLine, \
+    circle as drawCircle, rect as drawRect
 
 from src.python.GUI.Circle import Circle
 from src.python.GUI.colors import BACKGAMMON_BACKGROUND_COLOR, BACKGAMMON_BLACK_BACKGROUND_COLOR, \
@@ -9,7 +10,7 @@ from src.python.GUI.colors import BACKGAMMON_BACKGROUND_COLOR, BACKGAMMON_BLACK_
     BACKGAMMON_WHITE_FOREGROUND_COLOR, RED
 from src.python.GUI.enums import BackgammonActions
 from src.python.core.Chip import ChipColor, Chip
-
+from src.python.core.Backgammon import Backgammon
 
 # noinspection PyTypeChecker
 screenSize: tuple = None
@@ -64,7 +65,12 @@ def drawBackgammonBackground(surface: Surface) -> Unit:  # {
 # }
 
 
-def drawChip(cords: tuple[int, int], color: ChipColor, surface: Surface, drawDirect: bool = False) -> tuple:  # {
+def drawChip(
+        cords: tuple[int, int],
+        color: ChipColor,
+        surface: Surface,
+        drawDirect: bool = False
+) -> tuple:  # {
     """
     Draws a chip at given position.
     :param cords: Position of chip in our backgammon notation
@@ -128,7 +134,7 @@ def drawBackgammon(surface: Surface, gameData: list) -> list:  # {
         gameData[2][1][0].setBorders((0, 0), screenSize)
         gameData[2][1][1].setBorders((0, 0), screenSize)
     # }
-    actionChips: list[Chip] = list()
+    actionChips: list[Chip] = []
     for i, position in enumerate(field.getField()):  # {
         for j, chip in enumerate(position):  # {
             if not (chip.inAction):  # {

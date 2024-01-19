@@ -19,7 +19,11 @@ class Vector:  # {
         return Vector(self.x * other, self.y * other)
     # }
 
-    def length(self):  # {
+    def length(self) -> float:  # {
+        """
+        Returns float length of the vector (abs of vector).
+        :return: float number
+        """
         return hypot(self.x, self.y)
     # }
 # }

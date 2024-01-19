@@ -11,7 +11,7 @@ from src.python.core.Dice import Dice
 class Backgammon(ABSTRACT):  # {
     def __init__(self):  # {
         self._field: list[list[Chip]] = [[] for _ in range(0, 24, +1)]
-        for i in range(0, 15, +1):  # {
+        for _ in range(0, 15, +1):  # {
             self._field[0].append(Chip(ChipColor.WHITE))
             self._field[12].append(Chip(ChipColor.BLACK))
         # }
@@ -25,7 +25,14 @@ class Backgammon(ABSTRACT):  # {
             self, chip: Chip, oldCords: tuple[int, int],
             newCords: tuple[int, int], length: tuple[Dice, Dice]
     ) -> tuple[Dice, Dice]:  # {
-        pass
+        """
+        protected abstract method
+        :param chip: Chip
+        :param oldCords: tuple[int, int]
+        :param newCords: tuple[int, int]
+        :param length: length[Dice, Dice]
+        :return: tuple[Dice, Dice]
+        """
     # }
 
     def makeMove(
@@ -49,7 +56,7 @@ class Backgammon(ABSTRACT):  # {
         # }
         return result
     # }
-    
+
     @abstract
     def getWinner(self) -> bool:  # {
         """
@@ -57,7 +64,6 @@ class Backgammon(ABSTRACT):  # {
         and None, if game is still running. 
         :return: bool (nullable)
         """
-        pass
     # }
 
     def getTurn(self) -> bool:  # {
@@ -102,7 +108,7 @@ class Backgammon(ABSTRACT):  # {
         :param height: Height of current rect
         :return: Unit
         """
-        self._planeAssociation = list()
+        self._planeAssociation = []
         rectWidth: float = width / 12
         rectHeight: float = height / 2
         for i in range(0, 12, +1):  # {

@@ -35,24 +35,49 @@ class SDice(Sprite):  # {
     # }
 
     def setNumber(self, value: int) -> Unit:  # {
+        """
+        Sets the value at the top of dice to given number.
+        :param value: int from 1 to 6
+        :return: Unit
+        """
         self.__value: int = value
         self.image = SDice.IMAGES[value - 1]
     # }
 
     def setBorders(self, leftUp: tuple[int, int], rightDown: tuple[int, int]) -> Unit:  # {
+        """
+        Sets sprites motion borders to rect from left up to right down.
+        :param leftUp: tuple of x and y cords of left up point
+        :param rightDown: tuple of x and y cords of right down point
+        :return: Unit
+        """
         self.__leftUp = leftUp
         self.__rightDown = rightDown
     # }
 
     def hold(self, cords: tuple[float, float]) -> Unit:  # {
+        """
+        Message, that mouse button down at this sprite.
+        :param cords: Cords of mouse click
+        :return: Unit
+        """
         self.__savedState = cords
     # }
 
     def wasHold(self) -> bool:  # {
+        """
+        Returns true, if mouse button was pressed at this dice and was not upped.
+        :return: boolean
+        """
         return self.__savedState is not None
     # }
 
     def drop(self, cords: tuple[float, float]) -> Unit:  # {
+        """
+        Starts motion of this dice sprite.
+        :param cords: Cords of mouse button up
+        :return: Unit
+        """
         if (self.__savedState):  # {
             self.__acceleration = 0.95
             self.__speed = (Vector(*cords) - Vector(*self.__savedState)) * self.__acceleration * 3
@@ -64,6 +89,12 @@ class SDice(Sprite):  # {
 
     # @Override
     def update(self, *args, **kwargs):  # {
+        """
+        overriden
+        :param args:
+        :param kwargs:
+        :return:
+        """
         if (self.__rolling or self.__speed.x or self.__speed.y):  # {
             tick: int = args[0]
             position: Vector = Vector(self.rect.x, self.rect.y)

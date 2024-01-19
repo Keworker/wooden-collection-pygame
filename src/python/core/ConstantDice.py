@@ -8,7 +8,10 @@ class ConstantDice(Dice):  # {
 
     # @Override
     def getValue(self) -> int:  # {
+        """
+        overriden
+        :return:
+        """
         return self.__value
     # }
 # }
-

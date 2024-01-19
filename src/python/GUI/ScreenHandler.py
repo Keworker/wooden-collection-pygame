@@ -5,7 +5,8 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.sprite import Group
 
-from src.python.GUI.enums import GameStatus, StartScreenActions, BackgammonActions, StatisticsActions
+from src.python.GUI.enums import GameStatus, StartScreenActions, \
+    BackgammonActions, StatisticsActions
 from src.python.GUI.backgammon import drawBackgammon
 from src.python.GUI.long_backgammon import handleLongBackgammonAction
 from src.python.GUI.start_screen import handleStartScreenAction, drawStartScreen
@@ -64,10 +65,12 @@ class ScreenHandler:  # {
             case PyGame.MOUSEMOTION | PyGame.MOUSEBUTTONUP:  # {
                 x, y = PyGame.mouse.get_pos()
                 if (self.status == GameStatus.LONG_BACKGAMMON):  # {
-                    if (self.gameData[2][1][0].wasHold() and event.type == PyGame.MOUSEBUTTONUP):  # {
+                    if (self.gameData[2][1][0].wasHold() and
+                            event.type == PyGame.MOUSEBUTTONUP):  # {
                         self.gameData[2][1][0].drop((x, y))
                     # }
-                    elif (self.gameData[2][1][1].wasHold() and event.type == PyGame.MOUSEBUTTONUP):  # {
+                    elif (self.gameData[2][1][1].wasHold() and
+                          event.type == PyGame.MOUSEBUTTONUP):  # {
                         self.gameData[2][1][1].drop((x, y))
                     # }
                     elif (len(self.gameData) > 3):  # {

@@ -4,8 +4,9 @@ from pygame.draw import rect as drawRect
 
 from src.python.GUI.colors import BLACK, RED, GREEN
 from src.python.GUI.enums import StatisticsActions
-from src.python.GUI.strings import TOTAL_GAMES_TXT, LONG_BACKGAMMON_GAMES_TXT, SHORT_BACKGAMMON_GAMES_TXT, \
-    SHORT_BACKGAMMON_GAMES_BLACK_WON_TXT, SHORT_BACKGAMMON_GAMES_WHITE_WON_TXT, LONG_BACKGAMMON_GAMES_BLACK_WON_TXT, \
+from src.python.GUI.strings import TOTAL_GAMES_TXT, LONG_BACKGAMMON_GAMES_TXT, \
+    SHORT_BACKGAMMON_GAMES_TXT, SHORT_BACKGAMMON_GAMES_BLACK_WON_TXT, \
+    SHORT_BACKGAMMON_GAMES_WHITE_WON_TXT, LONG_BACKGAMMON_GAMES_BLACK_WON_TXT, \
     LONG_BACKGAMMON_GAMES_WHITE_WON_TXT
 from src.python.core.DAO import DAO
 from src.python.utils.resources_handler import getFont
@@ -19,15 +20,13 @@ def drawStatistics(surface: Surface) -> list:  # {
     """
     surface.fill(BLACK)
     screenSize: tuple = surface.get_size()
-    exitButtonSize: float = screenSize[1] / 15
     rect: Rect = Rect(
-        screenSize[0] - exitButtonSize * 2,
-        screenSize[1] - exitButtonSize * 2,
-        exitButtonSize,
-        exitButtonSize
+        screenSize[0] - screenSize[1] / 15 * 2,
+        screenSize[1] - screenSize[1] / 15 * 2,
+        screenSize[1] / 15,
+        screenSize[1] / 15
     )
-    drawRect(surface, RED, rect, border_radius=int(exitButtonSize / 6))
-    clickable: list = [(rect, StatisticsActions.EXIT)]
+    drawRect(surface, RED, rect, border_radius=int(rect.width / 6))
     font: PyGame.font = PyGame.font.Font(getFont(), screenSize[1] // 24)
     _, fontHeight = font.size("A")
     offset: int = (screenSize[1] // 12 - fontHeight) // 2
@@ -95,6 +94,5 @@ def drawStatistics(surface: Surface) -> list:  # {
         ),
         (offset, offset * 7 + fontHeight * 6)
     )
-    return clickable
+    return [(rect, StatisticsActions.EXIT)]
 # }
-

@@ -5,10 +5,6 @@ from src.python.core.Dice import Dice
 
 
 class LongBackgammon(Backgammon):  # {
-    def __init__(self):  # {
-        super().__init__()
-    # }
-
     # @Override
     def _makeMoveExtended(
             self, chip: Chip, oldCords: tuple[int, int],
@@ -50,6 +46,10 @@ class LongBackgammon(Backgammon):  # {
 
     # @Override
     def getWinner(self) -> bool:  # {
+        """
+        overriden
+        :return:
+        """
         hasBlack: bool = False
         hasWhite: bool = False
         for position in self._field:  # {
