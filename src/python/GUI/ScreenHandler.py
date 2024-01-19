@@ -52,8 +52,8 @@ class ScreenHandler:  # {
                         # }
                     # }
                 # }
-                if (self.status == GameStatus.LONG_BACKGAMMON or
-                        self.status == GameStatus.SHORT_BACKGAMMON):  # {
+                if (self.status in {GameStatus.LONG_BACKGAMMON,
+                                    GameStatus.SHORT_BACKGAMMON}):  # {
                     if (self.gameData[2][1][0].collidepoint(x, y)):  # {
                         self.gameData[2] = (
                             (self.gameData[1](), self.gameData[2][0][1]), self.gameData[2][1]
@@ -72,8 +72,8 @@ class ScreenHandler:  # {
             # }
             case PyGame.MOUSEMOTION | PyGame.MOUSEBUTTONUP:  # {
                 x, y = PyGame.mouse.get_pos()
-                if (self.status == GameStatus.LONG_BACKGAMMON or
-                        self.status == GameStatus.SHORT_BACKGAMMON):  # {
+                if (self.status in {GameStatus.LONG_BACKGAMMON,
+                                    GameStatus.SHORT_BACKGAMMON}):  # {
                     if (self.gameData[2][1][0].wasHold() and
                             event.type == PyGame.MOUSEBUTTONUP):  # {
                         self.gameData[2][1][0].drop((x, y))

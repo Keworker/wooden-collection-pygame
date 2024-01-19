@@ -182,4 +182,32 @@ class Backgammon(ABSTRACT):  # {
         # }
         raise ValueError("Invalid cords")
     # }
+
+    def _checkColorsNormal(self, curColor: ChipColor, turn: bool, newPosition: int) -> Unit:  # {
+        if (curColor == ChipColor.BLACK and turn or
+                curColor == ChipColor.WHITE and not turn):  # {
+            raise ValueError("Invalid turn")
+        # }
+        for it in self._field[newPosition]:  # {
+            if (it.color != curColor):  # {
+                raise ValueError("Invalid turn")
+            # }
+        # }
+    # }
+
+    def _makeMove(
+            self,
+            oldCords: tuple[int, int],
+            newCords: tuple[int, int],
+            chip: Chip
+    ) -> Unit:  # {
+        self._field[oldCords[0]].pop(oldCords[1])
+        if not (
+                chip.color == ChipColor.WHITE and oldCords[0] >= 12 > newCords[0] or
+                chip.color == ChipColor.BLACK and newCords[0] >= 12 > oldCords[0]
+        ):  # {
+            self._field[newCords[0]].append(chip)
+            self._field[newCords[0]][-1].inAction = False
+        # }
+    # }
 # }
